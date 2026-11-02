@@ -441,29 +441,29 @@
 
 <div class="paths">
   <div class="path" style="--path: #2f6fd6;">
-    <h3>Before your first engagement</h3>
+    <h3>First engagement</h3>
     <p class="when">Once per machine — installs and checks the tools every other command needs</p>
-    <div class="path-flow"><a class="step req" href="#5-setup" title="Install, configure, and test the workspace dependencies (markitdown, Node, draw.io, Playwright). Run once per machine, before anything else">/setup</a></div>
+    <div class="path-flow"><a class="step req" href="#setup" title="Install, configure, and test the workspace dependencies (markitdown, Node, draw.io, Playwright). Run once per machine, before anything else">/setup</a></div>
   </div>
   <div class="path" style="--path: #555555;">
-    <h3>Simplest</h3>
+    <h3>Requirements (simplest)</h3>
     <p class="when">Straight to a spec; amend it yourself if you already know what to change</p>
     <div class="path-flow"><a class="step req" href="#intake" title="Drop source materials into the documentation folder">documentation/</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#requirements" title="Generate a formal record that outlines what a product, system, or project must achieve and how it should function for prototyping purposes">/requirements</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#amend-requirements" title="Record your own changes to a finished requirement document without redrafting it. Use when you already know what to change">/amend-requirements</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#export-application" title="Export the requirements document as a final version for development purposes">/export-application</a></div>
   </div>
   <div class="path" style="--path: #c0392b;">
-    <h3>Full</h3>
+    <h3>Requirements (full)</h3>
     <p class="when">Every engagement step, in order — pick up only the optional ones your engagement needs (hover a box to see when)</p>
     <div class="path-flow wrap"><a class="step req" href="#intake" title="Drop source materials into the documentation folder">documentation/</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#input-reviews" title="Use one of the available methodologies to find problems, gaps, ambiguities, etc. in the source materials. Use when the inputs may be weak">/review-inputs</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#resolve-review" title="Answer questions to resolve the issues found in a review. Use when a review found issues you want to settle">/resolve-review</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#input-analyses" title="Enrich your understanding of the source materials by applying established methodologies. Use when you want to understand the domain more deeply">/analyse-inputs</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#generate-prd" title="Generate a definition of the product&#39;s purpose, features, functionality, and behaviour from source documents. Use when stakeholders need the “why”">/generate-prd</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#requirements" title="Generate a formal record that outlines what a product, system, or project must achieve and how it should function for prototyping purposes">/requirements</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#req-reviews" title="Use one of the available methodologies to find problems, gaps, ambiguities, etc. in the requirement document. Use when the spec may be weak">/review-requirement</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#resolve-review" title="Answer questions to resolve the issues found in a review. Use when a review found issues you want to settle">/resolve-review</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#req-analyses" title="Enrich your understanding of the requirement by applying established methodologies. Use when you want a deeper look at the finished spec">/analyse-requirement</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#amend-requirements" title="Record your own changes to a finished requirement document without redrafting it. Use when you already know what to change">/amend-requirements</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#wireframe" title="Generate low-fidelity visual skeletal blueprints of the application interfaces to establish layouts and functionality. Use when you want to show the client screen layouts">/wireframe</a><span class="step-arrow" aria-hidden="true">→</span><a class="step opt" href="#prototype" title="Generate high-fidelity fully interactive interfaces to demonstrate system behaviours and navigation flow without a backend. Use when you want the client to click through the screens">/prototype</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#export-application" title="Export the requirements document as a final version for development purposes">/export-application</a></div>
   </div>
   <div class="path" style="--path: #1a8f63;">
-    <h3>Independent — design system</h3>
+    <h3>Design system</h3>
     <p class="when">Run any time; no order with the steps above. It sets the brand look that /prototype uses</p>
-    <div class="path-flow"><a class="step opt" href="#design-system" title="Generate design systems in light and dark mode from a URL. Use when you will build a prototype in the client&#39;s brand">/design-system</a></div>
+    <div class="path-flow"><a class="step req" href="#design-system" title="Generate design systems in light and dark mode from a URL. Use when you will build a prototype in the client&#39;s brand">/design-system</a></div>
   </div>
   <div class="path" style="--path: #8a8a8a;">
-    <h3>Special case — Stadium 6 app</h3>
+    <h3>Stadium 6 app</h3>
     <p class="when">The client gave you a Stadium 6 app; extract it into input documents first</p>
-    <div class="path-flow"><a class="step opt" href="#ingest-stadium" title="Extract a Stadium 6 application into input documents the other commands can read. Use when the client gave you a Stadium 6 app">/ingest-stadium</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#intake" title="Drop source materials into the documentation folder">documentation/</a></div>
+    <div class="path-flow"><a class="step req" href="#ingest-stadium" title="Extract a Stadium 6 application into input documents the other commands can read. Use when the client gave you a Stadium 6 app">/ingest-stadium</a><span class="step-arrow" aria-hidden="true">→</span><a class="step req" href="#intake" title="Drop source materials into the documentation folder">documentation/</a></div>
   </div>
 </div>
 
@@ -556,6 +556,27 @@
   <button type="button" onclick="document.querySelectorAll('details.acc').forEach(d => d.open = true)">Expand all</button>
   <button type="button" onclick="document.querySelectorAll('details.acc').forEach(d => d.open = false)">Collapse all</button>
 </div>
+
+<!-- 3setup — /setup -->
+<details class="acc base" id="setup">
+  <summary>
+    <div class="head-left">
+      <span class="head-cmd">/setup</span>
+      <span class="head-role">Base · once per machine · environment preparation</span>
+    </div>
+    <a class="back-link" href="#paths">↑ Back to paths</a>
+  </summary>
+  <div class="acc-body">
+    <div class="card base solo">
+      <h4>/setup</h4>
+      <div class="role">Your machine → ready to run every command</div>
+      <div class="field"><span class="field-label">Inputs</span><div class="field-body">None. Optionally a component name — e.g. <code>/setup core</code> for the core dependencies only, or <code>/setup inkscape</code> / <code>/setup libreoffice</code> for the rarely-needed <code>.svg</code> / <code>.vsdx</code> renderers. No argument installs everything.</div></div>
+      <div class="field"><span class="field-label">When to use</span><div class="field-body">Before your first engagement on a machine. Also once in every new copy of the workspace — the artefact-preview check (HTML outputs opening in your browser before you accept them) belongs to the workspace, not the machine. Safe to re-run: anything already installed is checked and left alone.</div></div>
+      <div class="field"><span class="field-label">Delivers</span><div class="field-body">The tools the commands need — markitdown (Office and PDF inputs), Node, draw.io, Playwright (<code>/design-system</code> URL extraction and <code>/prototype</code> checks) — plus a status table with one ✅ / ⚠️ / ❌ row per dependency. Writes no requirement artefacts.</div></div>
+      <div class="field"><span class="field-label">How to use</span><div class="field-body">Run it and read the table. If any row shows ⚠️, <strong>restart Claude Code</strong> and run <code>/setup</code> again — newly installed tools only become usable after a restart. A ❌ row names its own repair.</div></div>
+    </div>
+  </div>
+</details>
 
 <!-- 3pre — /ingest-stadium -->
 <details class="acc base" id="ingest-stadium">
