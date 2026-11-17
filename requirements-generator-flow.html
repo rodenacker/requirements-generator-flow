@@ -272,6 +272,121 @@
     border-radius: 3px;
     font-size: 11.5px;
   }
+
+  /* ---------- Method cards + family-common box (review / analysis accordions) ---------- */
+  .card.method { scroll-margin-top: 24px; }
+  .card.method.hash-active { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .card.method .card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 8px;
+    margin-bottom: 4px;
+  }
+  .card.method .card-head h4 { margin: 0; }
+  .card.method .next-chip {
+    font-size: 10.5px;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-bg);
+    border: 1px solid var(--accent);
+    border-radius: 99px;
+    padding: 1px 8px;
+    white-space: nowrap;
+  }
+  .card.method .card-question {
+    margin: 0 0 4px;
+    font-size: 13.5px;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .card.method .field:nth-last-child(2) { margin-bottom: 10px; }
+  .card.method .card-meta {
+    margin-top: auto;
+    padding-top: 8px;
+    border-top: 1px solid var(--rule-soft);
+    font-size: 11px;
+    color: var(--ink-faint);
+  }
+  .card.method .card-meta code,
+  .family-common code {
+    background: var(--rule-soft);
+    padding: 0 4px;
+    border-radius: 3px;
+    font-size: 10.5px;
+    overflow-wrap: anywhere;
+  }
+  .family-common {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 12px 16px 14px;
+    margin: 0 0 14px;
+  }
+  .family-common h3 {
+    margin: 0 0 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+  }
+  .family-common p { margin: 0 0 10px; color: var(--ink-soft); font-size: 13px; }
+  .family-common dl {
+    margin: 0;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    row-gap: 6px;
+    column-gap: 14px;
+    font-size: 13px;
+  }
+  .family-common dt {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    font-weight: 600;
+    padding-top: 2px;
+  }
+  .family-common dd { margin: 0; color: var(--ink); }
+  .family-common code { font-size: 11.5px; }
+
+  /* ---------- Chooser (symptom → method) ---------- */
+  #chooser { margin: 0 0 28px; scroll-margin-top: 24px; }
+  #chooser h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; }
+  #chooser .chooser-legend { margin: 0 0 10px; font-size: 12.5px; color: var(--ink-soft); }
+  #chooser .chooser-wrap {
+    overflow-x: auto;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  #chooser table { width: 100%; min-width: 600px; border-collapse: collapse; font-size: 13px; }
+  #chooser th, #chooser td {
+    text-align: left;
+    vertical-align: top;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  #chooser th { background: var(--rule-soft); font-size: 12px; font-weight: 600; }
+  #chooser tr:last-child td { border-bottom: none; }
+  #chooser td:first-child { width: 32%; }
+  #chooser td.none { color: var(--ink-faint); }
+  #chooser .m-link {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: 12px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  #chooser .m-link.review { color: #b45a3c; }
+  #chooser .m-link.analysis { color: #2a7561; }
+  #chooser a.m-link:hover, #chooser a.m-link:focus-visible { text-decoration: underline; }
+  @media (max-width: 560px) {
+    .family-common dl { grid-template-columns: 1fr; row-gap: 2px; }
+    .family-common dd { margin-bottom: 6px; }
+  }
+
   .tag {
     display: inline-block;
     background: var(--tag-bg);
@@ -430,6 +545,7 @@
   <ul>
     <li><a href="#paths">§1 — Paths</a></li>
     <li><a href="#purpose">§2 — Reviews vs Analyses</a></li>
+    <li><a href="#chooser">Choose a method</a></li>
     <li><a href="#handoffs">§3 — Handoff patterns</a></li>
     <li><a href="#descriptions">§4 — Pipeline descriptions</a></li>
   </ul>
@@ -474,7 +590,7 @@
 
 <!-- ============== §2 REVIEWS vs ANALYSES ============== -->
 <h2 class="section" id="purpose"><span class="num">§2</span>Reviews vs Analyses — purpose at a glance</h2>
-<p class="lede">Both optional pipeline families lens the same source material (raw <code>documentation/</code> or merged <code>requirements.md</code>), but they produce categorically different outputs and demand different consultant actions.</p>
+<p class="lede">Both optional pipeline families lens the same source material (raw <code>documentation/</code> or merged <code>requirements-prototype.md</code>), but they produce categorically different outputs and demand different consultant actions.</p>
 
 <div class="purpose-grid">
 
@@ -487,7 +603,7 @@
       <dt>Output shape</dt>
       <dd>A punch-list of findings — never an auto-patch. The artefact is something the consultant <em>reads and acts on</em>, not a positive contract for downstream tools.</dd>
       <dt>Consultant action</dt>
-      <dd>Manual edits to <code>documentation/</code> files (for <code>/review-inputs</code>) or to <code>requirements.md</code> (for <code>/review-requirement</code>). Some findings also generate follow-up elicitation questions for the client.</dd>
+      <dd>Manual edits to <code>documentation/</code> files (for <code>/review-inputs</code>) or to <code>requirements-prototype.md</code> (for <code>/review-requirement</code>). Some findings also generate follow-up elicitation questions for the client.</dd>
       <dt>Pick when</dt>
       <dd>You suspect the source is incomplete, ambiguous, or weak, and you want a structured list of <em>specifically what to fix</em> before drafting or designing further.</dd>
       <dt>Examples</dt>
@@ -514,6 +630,80 @@
 
 </div>
 
+<section id="chooser">
+  <h3>Which method? Start from what you notice</h3>
+  <p class="chooser-legend">Each link opens the method's card in §4. <span class="m-link review">Reviews</span> find what is wrong; <span class="m-link analysis">analyses</span> make the structure explicit.</p>
+  <div class="chooser-wrap">
+    <table>
+      <thead>
+        <tr><th>What you notice</th><th>Before <code>/requirements</code> (inputs)</th><th>After <code>/requirements</code> (spec)</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Something important is probably missing</td>
+          <td><a class="m-link review" href="#input-reviews--completeness-review">completeness-review</a>, <a class="m-link review" href="#input-reviews--gap-analysis">gap-analysis</a>, <a class="m-link review" href="#input-reviews--ten-ba-questions">ten-ba-questions</a>, <a class="m-link review" href="#input-reviews--ten-ux-questions">ten-ux-questions</a></td>
+          <td><a class="m-link review" href="#req-reviews--ten-ba-questions">ten-ba-questions</a>, <a class="m-link review" href="#req-reviews--ten-ux-questions">ten-ux-questions</a>, <a class="m-link analysis" href="#req-analyses--crud-coverage">crud-coverage</a></td>
+        </tr>
+        <tr>
+          <td>The wording is vague or the requirements aren't testable</td>
+          <td><a class="m-link review" href="#input-reviews--ambiguity-review">ambiguity-review</a>, <a class="m-link analysis" href="#input-analyses--glossary">glossary</a></td>
+          <td><a class="m-link review" href="#req-reviews--requirements-quality">requirements-quality</a>, <a class="m-link review" href="#req-reviews--user-stories">user-stories</a>, <a class="m-link analysis" href="#req-analyses--glossary">glossary</a></td>
+        </tr>
+        <tr>
+          <td>Sources disagree, or I'm not sure the material can be trusted</td>
+          <td><a class="m-link review" href="#input-reviews--adversarial">adversarial</a></td>
+          <td><a class="m-link review" href="#req-reviews--adversarial">adversarial</a>, <a class="m-link review" href="#req-reviews--requirements-traceability">requirements-traceability</a></td>
+        </tr>
+        <tr>
+          <td>I can't say why it's needed or what success looks like</td>
+          <td><a class="m-link analysis" href="#input-analyses--business-context-definition">business-context-definition</a>, <a class="m-link analysis" href="#input-analyses--user-goal-analysis">user-goal-analysis</a>, <a class="m-link analysis" href="#input-analyses--jtbd">jtbd</a>, <a class="m-link analysis" href="#input-analyses--opportunity-solution-trees">opportunity-solution-trees</a></td>
+          <td><a class="m-link review" href="#req-reviews--first-principles">first-principles</a>, <a class="m-link analysis" href="#req-analyses--five-whys">five-whys</a>, <a class="m-link analysis" href="#req-analyses--opportunity-solution-trees">opportunity-solution-trees</a>, <a class="m-link analysis" href="#req-analyses--jtbd">jtbd</a></td>
+        </tr>
+        <tr>
+          <td>I don't know who the users are or what they need</td>
+          <td><a class="m-link review" href="#input-reviews--ten-ux-questions">ten-ux-questions</a>, <a class="m-link analysis" href="#input-analyses--user-goal-analysis">user-goal-analysis</a>, <a class="m-link analysis" href="#input-analyses--jtbd">jtbd</a></td>
+          <td><a class="m-link review" href="#req-reviews--ten-ux-questions">ten-ux-questions</a>, <a class="m-link analysis" href="#req-analyses--jtbd">jtbd</a></td>
+        </tr>
+        <tr>
+          <td>I don't know what the main things (objects, data) are</td>
+          <td><a class="m-link analysis" href="#input-analyses--ooux">ooux</a></td>
+          <td><a class="m-link analysis" href="#req-analyses--ooux">ooux</a>, <a class="m-link analysis" href="#req-analyses--data-model">data-model</a></td>
+        </tr>
+        <tr>
+          <td>Users must find records in long lists</td>
+          <td class="none">—</td>
+          <td><a class="m-link analysis" href="#req-analyses--faceted-classification">faceted-classification</a></td>
+        </tr>
+        <tr>
+          <td>I don't understand how the work gets done</td>
+          <td><a class="m-link analysis" href="#input-analyses--task-analysis">task-analysis</a>, <a class="m-link analysis" href="#input-analyses--swim-lane-process-mapping">swim-lane-process-mapping</a>, <a class="m-link analysis" href="#input-analyses--journey-mapping">journey-mapping</a></td>
+          <td><a class="m-link analysis" href="#req-analyses--task-flows">task-flows</a>, <a class="m-link analysis" href="#req-analyses--use-cases">use-cases</a>, <a class="m-link analysis" href="#req-analyses--activity-diagram">activity-diagram</a>, <a class="m-link analysis" href="#req-analyses--sequence-diagram">sequence-diagram</a>, <a class="m-link analysis" href="#req-analyses--user-journeys">user-journeys</a></td>
+        </tr>
+        <tr>
+          <td>Statuses, rules and conditions are unclear</td>
+          <td class="none">—</td>
+          <td><a class="m-link analysis" href="#req-analyses--state-diagram">state-diagram</a>, <a class="m-link analysis" href="#req-analyses--decision-tables">decision-tables</a>, <a class="m-link analysis" href="#req-analyses--crud-coverage">crud-coverage</a></td>
+        </tr>
+        <tr>
+          <td>I have lots of interview notes and no structure</td>
+          <td><a class="m-link analysis" href="#input-analyses--thematic-analysis">thematic-analysis</a>, <a class="m-link analysis" href="#input-analyses--affinity-mapping">affinity-mapping</a></td>
+          <td class="none">—</td>
+        </tr>
+        <tr>
+          <td>Scope is too big; I need to decide what ships first</td>
+          <td class="none">—</td>
+          <td><a class="m-link analysis" href="#req-analyses--mvp-slicing">mvp-slicing</a></td>
+        </tr>
+        <tr>
+          <td>Before designing: what should the screens favour?</td>
+          <td class="none">—</td>
+          <td><a class="m-link analysis" href="#req-analyses--trade-off-dimension-analysis">trade-off-dimension-analysis</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
 <!-- ============== §3 HANDOFFS ============== -->
 <h2 class="section" id="handoffs"><span class="num">§3</span>How outputs flow back into inputs</h2>
 <p class="lede">Pipeline outputs are <strong>not auto-piped</strong>. The consultant manually shuttles relevant pieces between runs — every cross-pipeline transfer is an explicit decision with a paper trail.</p>
@@ -536,11 +726,11 @@
     </tr>
     <tr>
       <td><code>/review-requirement</code> · any methodology</td>
-      <td>Read the punch-list and <strong>manually edit <code>generated-docs/requirements/requirements.md</code></strong> to address defects — or re-run <code>/requirements</code> with corrective input. The review never auto-patches the spec.</td>
+      <td>Read the punch-list and <strong>manually edit <code>generated-docs/requirements/requirements-prototype.md</code></strong> to address defects — or re-run <code>/requirements</code> with corrective input. The review never auto-patches the spec.</td>
     </tr>
     <tr>
       <td><code>/resolve-review</code></td>
-      <td>The assisted alternative to hand-editing after a review: pick an existing review artefact (<code>generated-docs/review-inputs/</code> or <code>generated-docs/review-requirements/</code>), select the findings to act on, and resolve each one interactively — every AI-inferred resolution is confirmed by an explicit affirmative, either per finding or in one go via an explicit <em>Accept all remaining as drafted</em> choice (nothing is silently assumed). The approved resolutions are written as a <strong>new dated document into <code>documentation/</code></strong> (never overwriting an existing file), ready for the next <code>/requirements</code> run. Review-requirements-sourced runs can additionally (opt-in) cache the same resolutions as a transient <em>Amendments</em> section in <code>requirements.md</code> until the next re-merge folds them in.</td>
+      <td>The assisted alternative to hand-editing after a review: pick an existing review artefact (<code>generated-docs/review-inputs/</code> or <code>generated-docs/review-requirements/</code>), select the findings to act on, and resolve each one interactively — every AI-inferred resolution is confirmed by an explicit affirmative, either per finding or in one go via an explicit <em>Accept all remaining as drafted</em> choice (nothing is silently assumed). The approved resolutions are written as a <strong>new dated document into <code>documentation/</code></strong> (never overwriting an existing file), ready for the next <code>/requirements</code> run. Review-requirements-sourced runs can additionally (opt-in) cache the same resolutions as a transient <em>Amendments</em> section in <code>requirements-prototype.md</code> until the next re-merge folds them in.</td>
     </tr>
     <tr>
       <td colspan="2">Select relevant analyses (OOUX object map, user-journeys, task-flows, trade-off-dimension matrix) as supporting inputs when you run <code>/wireframe</code> (Stage&nbsp;1b — completed analyses are read sidecar-first) or <code>/prototype</code> (basis&nbsp;B of its A–E input selection), so the produced screens and prototype reflect the lensed structure. They also remain reference reading you use to set scope and trade-off-dimension positions.</td>
@@ -631,61 +821,69 @@
     <a class="back-link" href="#paths">↑ Back to paths</a>
   </summary>
   <div class="acc-body">
-    <p class="panel-lede">Critique the raw <code>documentation/</code> corpus — missing context, ambiguity, contradiction, stakeholder-voice gaps. Output is a punch-list you act on by hand-editing files in <code>documentation/</code> before running <code>/requirements</code>.</p>
+    <div class="family-common">
+      <h3>Common to all 6 methods</h3>
+      <p>Critique the raw <code>documentation/</code> material for missing context, ambiguity, contradiction and gaps in the stakeholder voice.</p>
+      <dl>
+        <dt>Reads</dt><dd>Every file in <code>documentation/</code></dd>
+        <dt>Results</dt><dd>A list of findings in <code>generated-docs/review-inputs/&lt;METHOD&gt;/</code>. Never changes your files.</dd>
+        <dt>Usual next step</dt><dd>Ask the client the questions it raises, or edit the files in <code>documentation/</code> yourself. Or run <code>/resolve-review</code> to turn chosen findings into a new approved input document. Then re-run <code>/requirements</code>.</dd>
+      </dl>
+    </div>
     <div class="panel-grid">
 
-      <div class="card opt">
-        <h4>adversarial</h4>
-        <div class="role">BMAD six-dimension critique</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>. Treats the corpus as <em>the stakeholder voice</em>, not evidence-of-elicitation.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before <code>/requirements</code> when you suspect the input set is uneven — coverage holes, mixed first- / second-hand voices, sources contradicting each other.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/ADVERSARIAL/adversarial-review.html</code> — six-dimension findings (stakeholder coverage, workflow coverage, ambiguity, cross-source conflict, quantitative signal, scope signal) with corpus-handling recommendations.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Hand-edit the source files in <code>documentation/</code> to address each finding (add context, reconcile conflict, label second-hand voices), then re-run <code>/requirements</code>.</div></div>
+      <div class="card opt method" id="input-reviews--adversarial">
+        <div class="card-head"><h4>adversarial</h4></div>
+        <p class="card-question">Where does the material contradict itself, miss voices, or stay silent?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Roles and workflows nobody describes, sources that contradict each other, vague wording, missing numbers and unclear scope.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Each defect, rated by how much it matters for the frontend spec, with a recommendation for handling the material you already have.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The draft starts from material whose weaknesses are already handled, so fewer contradictions and guesses reach the spec.</div></div>
+        <div class="card-meta">BMAD-style adversarial critique · <code>ADVERSARIAL/adversarial-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>completeness-review</h4>
-        <div class="role">BA-canon sweep</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>. Measures against the BA literature canon (IEEE 29148, Volere, BABOK, Wiegers, INCOSE, ISO 25010) across ten coverage dimensions.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Pick this when you need a broad, authority-grounded gap punch-list to drive client follow-up elicitation. Complementary to <em>gap-analysis</em>.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/COMPLETENESS-REVIEW/completeness-review.html</code> — disposition-classified findings (Needs-Clarification / Standard-Rule-Applies / Out-of-Scope) plus per-source elicitation questions.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use the elicitation questions to chase the client; once you receive answers, add them as new files under <code>documentation/</code> and re-run <code>/requirements</code>.</div></div>
+      <div class="card opt method" id="input-reviews--completeness-review">
+        <div class="card-head"><h4>completeness-review</h4></div>
+        <p class="card-question">What does the material miss by professional business-analysis standards?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Areas the material leaves uncovered, measured across ten coverage dimensions against standard BA practice, not this project's template.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Each gap and whether it needs the client, is covered by a standard rule, or is out of scope; plus ready-to-ask questions per source.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Answers to the questions become new inputs, so the spec rests on client facts, not guessed values.</div></div>
+        <div class="card-meta">IEEE 29148, Volere, BABOK, Wiegers, INCOSE, ISO 25010 · <code>COMPLETENESS-REVIEW/completeness-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ambiguity-review</h4>
-        <div class="role">Berry/Kamsties + Femmer taxonomy</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the input set reads "soft" — vague verbs, weak modals, optional language, undefined pronouns — and you want to nail down each ambiguity before the drafter inherits it.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/AMBIGUITY-REVIEW/ambiguity-review.html</code> — every lexical / syntactic / referential / vague / subjective / weak-verb / optionality finding with a ready-to-paste stakeholder elicitation question.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Run the questions past the client; capture answers in <code>documentation/</code> (or rewrite the ambiguous source if you have the authority) and re-run <code>/requirements</code>.</div></div>
+      <div class="card opt method" id="input-reviews--ambiguity-review">
+        <div class="card-head"><h4>ambiguity-review</h4></div>
+        <p class="card-question">Which statements could two people read differently?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Vague verbs, weak "should/may", undefined "it/they": wording the drafter would otherwise interpret silently.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Each ambiguous phrase, its competing readings, and a client question ready to send.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Fewer guessed rules in the spec; acceptance criteria that can actually be tested.</div></div>
+        <div class="card-meta">Berry/Kamsties + Femmer · <code>AMBIGUITY-REVIEW/ambiguity-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>gap-analysis</h4>
-        <div class="role">Template-bijection delta</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>. Measures against this project's drafter template — <em>not</em> the BA canon.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you want a visual, drafter-aligned gap map with <em>pre-drafted</em> shall-form candidate requirements. Complementary to <em>completeness-review</em>.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/GAP-ANALYSIS/gap-analysis.html</code> — inline-SVG coverage heatmap, gap-matrix table by dimension × MoSCoW. Every Must/Should gap ships a shall-form Candidate Requirement.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body"><strong>Copy <code>gap-analysis.html</code> directly into <code>documentation/</code></strong> and re-run <code>/requirements</code> — the drafter cites it via its filename and absorbs the candidate requirements. Edit any rows you reject before re-ingestion.</div></div>
+      <div class="card opt method" id="input-reviews--gap-analysis">
+        <div class="card-head"><h4>gap-analysis</h4><span class="next-chip">Drop into documentation/</span></div>
+        <p class="card-question">Which sections of the spec will the material leave empty?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Parts of this project's requirements template the material leaves empty or thin, before the drafter has to fill them with guesses.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A coverage heatmap, each gap prioritised must/should/could/won't, and a ready-drafted "the system shall …" requirement for every must or should gap.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Ratify, edit or reject the candidates and drop the file into <code>documentation/</code>; the next <code>/requirements</code> run cites the ones you keep.</div></div>
+        <div class="card-meta">Gap analysis against the requirements template, MoSCoW priorities · <code>GAP-ANALYSIS/gap-analysis.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ten-ba-questions</h4>
-        <div class="role">Top-10 BA gaps in the corpus</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before <code>/requirements</code> when you want the most consequential business-analysis gaps <em>named</em> rather than an exhaustive coverage audit — pick <em>completeness-review</em> or <em>gap-analysis</em> when you want every gap mapped.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/TEN-BA-QUESTIONS/ten-ba-questions-review.html</code> — the ten most pressing stakeholder questions the gathered material leaves unanswered, ranked by business impact across eight BA gap categories, each sourced to an input file or marked absent-from-corpus.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Take the ten questions to your stakeholders and fold the answers into <code>documentation/</code> before re-running <code>/requirements</code> — or feed the artefact to <code>/resolve-review</code> to turn the answers into an approved input document.</div></div>
+      <div class="card opt method" id="input-reviews--ten-ba-questions">
+        <div class="card-head"><h4>ten-ba-questions</h4></div>
+        <p class="card-question">Which ten business questions should I ask the client first?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The business gaps that matter most (scope, rules, data ownership), named rather than buried in an exhaustive audit.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Ten stakeholder questions ranked by business impact, how poorly the material answers them, and how many others each unblocks. Each cites a source file or is marked absent.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Answers settle scope, rules and data ownership before drafting, so the spec carries fewer open questions.</div></div>
+        <div class="card-meta">Eight BA gap categories · <code>TEN-BA-QUESTIONS/ten-ba-questions-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ten-ux-questions</h4>
-        <div class="role">Top-10 UX gaps in the corpus</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before <code>/requirements</code> when you want the most consequential UX-discovery gaps <em>named</em> — its sibling <em>ten-ba-questions</em> covers the business-analysis gaps (scope, rules, data ownership); pick <em>completeness-review</em> or <em>gap-analysis</em> when you want every gap mapped.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-inputs/TEN-UX-QUESTIONS/ten-ux-questions-review.html</code> — the ten most pressing design questions the material leaves unanswered, ranked by design impact across eight UX gap categories (users &amp; segmentation, context of use, goals &amp; success signals, task flows &amp; decision points, decision-supporting data, errors &amp; recovery, collaboration, trust &amp; audit).</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Take the ten questions to stakeholders and users and fold the answers into <code>documentation/</code> before re-running <code>/requirements</code> — or feed the artefact to <code>/resolve-review</code> to turn the answers into an approved input document.</div></div>
+      <div class="card opt method" id="input-reviews--ten-ux-questions">
+        <div class="card-head"><h4>ten-ux-questions</h4></div>
+        <p class="card-question">Which ten design questions should I ask users and stakeholders first?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The design gaps that matter most: who the users are, where they work, how they decide, recover from errors and collaborate.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Ten design questions ranked by design impact, how poorly the material answers them, and how many others each unblocks. Each cites a source file or is marked absent.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Answers give the spec real user groups, decision points and error cases, so screens are designed from evidence, not assumption.</div></div>
+        <div class="card-meta">Eight UX gap categories · <code>TEN-UX-QUESTIONS/ten-ux-questions-review.html</code></div>
       </div>
 
     </div>
@@ -703,106 +901,114 @@
     <a class="back-link" href="#paths">↑ Back to paths</a>
   </summary>
   <div class="acc-body">
-    <p class="panel-lede">Transform raw inputs into structured models (theme maps, task trees, object models, journeys). Every analyser ships a re-ingestion block that survives copy-into-<code>documentation/</code> and feeds the drafter on the next <code>/requirements</code> run.</p>
+    <div class="family-common">
+      <h3>Common to all 11 methods</h3>
+      <p>Transform the raw inputs into structured models: theme maps, task trees, object models, journeys.</p>
+      <dl>
+        <dt>Reads</dt><dd>Every file in <code>documentation/</code></dd>
+        <dt>Results</dt><dd>A model of the inputs in <code>generated-docs/analyse-inputs/&lt;METHOD&gt;/</code></dd>
+        <dt>Usual next step</dt><dd>Choose <strong>Accept &amp; use</strong> at the end. It writes <code>documentation/&lt;method&gt;.analysis.md</code>, which <code>/requirements</code> reads on its next run, and you confirm any inferred items first. Plain <strong>Accept</strong> keeps it for reading only.</dd>
+      </dl>
+    </div>
     <div class="panel-grid">
 
-      <div class="card opt">
-        <h4>task-analysis</h4>
-        <div class="role">Hierarchical Task Analysis</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs describe a goal-decomposition workflow — multi-step tasks with branches, iterations, and information requirements — and you want a numbered tree the drafter can ladder against.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/TASK-ANALYSIS/task-analysis.html</code> — numbered goal / sub-goal / operation tree with mandatory Plans (sequence / selection / iteration / concurrent / discretionary) and per-terminal data-noun annotations. Embedded YAML structured tree.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the drafter's gap-pass treats the embedded YAML tree as a bijection target — Plans seed acceptance-criteria branches, information requirements hint at §7 Data entities.</div></div>
+      <div class="card opt method" id="input-analyses--task-analysis">
+        <div class="card-head"><h4>task-analysis</h4></div>
+        <p class="card-question">How exactly do users get each task done, step by step?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The sub-steps, branches and repeats inside each task, and the data every step reads or writes.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A numbered tree of goals, sub-goals and operations, with a plan on every branch saying in what order or under what condition steps run.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The drafter uses the tree as a completeness target: plans become acceptance-criteria branches, step data seeds §7 data shapes.</div></div>
+        <div class="card-meta">Hierarchical Task Analysis (Annett &amp; Duncan) · <code>TASK-ANALYSIS/task-analysis.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>thematic-analysis</h4>
-        <div class="role">Braun &amp; Clarke six-phase</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs are heavy on qualitative material (interview notes, open-ended survey responses, stakeholder narratives) and you want to surface latent patterns before drafting.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/THEMATIC-ANALYSIS/thematic-analysis.html</code> — codes, themes, theme-map (Mermaid), and a Candidate-Requirements bridge linking each theme to draftable scope.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the drafter picks the candidate-requirement bridge up like any other source.</div></div>
+      <div class="card opt method" id="input-analyses--thematic-analysis">
+        <div class="card-head"><h4>thematic-analysis</h4></div>
+        <p class="card-question">What patterns keep coming up across the interviews and notes?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Recurring patterns across unstructured interviews, notes and decks that no single source states outright.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">The themes and the coded passages behind them, a theme map, and candidate requirements bridged from each theme.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body"><code>/requirements</code> drafts from the themes and picks up the candidate requirements like any other source.</div></div>
+        <div class="card-meta">Braun &amp; Clarke six-phase · <code>THEMATIC-ANALYSIS/thematic-analysis.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>opportunity-solution-trees</h4>
-        <div class="role">Teresa Torres 2016 (forward discovery)</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs name a desired outcome and you want to ladder it down through opportunities and solutions before the drafter commits to feature scope.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/OPPORTUNITY-SOLUTION-TREES/opportunity-solution-tree.html</code> — four-layer discovery tree (Outcome → Opportunities → Solutions → Assumption-tests) with a Candidate-Requirements bridge.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the drafter consumes the bridge section to seed scope. Use the assumption-tests to drive validation work in parallel.</div></div>
+      <div class="card opt method" id="input-analyses--opportunity-solution-trees">
+        <div class="card-head"><h4>opportunity-solution-trees</h4></div>
+        <p class="card-question">Which options reach the client's outcome, and which assumptions need testing?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The opportunities and alternative solutions behind a stated outcome, before requirements lock in one feature set.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A tree from outcome to opportunities, solutions and the assumption tests that show what to validate first.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The next <code>/requirements</code> draft seeds its scope from the candidate requirements, before a feature set is locked in.</div></div>
+        <div class="card-meta">Teresa Torres (2016) · <code>OPPORTUNITY-SOLUTION-TREES/opportunity-solution-tree.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>journey-mapping</h4>
-        <div class="role">NN/G + Kalbach current-state journey</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs describe an end-to-end user experience (one or more personas) and you need a concrete backbone for §5 task flows, §6 integration constraints, §4 NFRs, user stories, and priorities.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/JOURNEY-MAPPING/journey-mapping.html</code> — one journey card per persona with phases, steps, touchpoints, channels, thoughts, emotion-curve SVG, pain-points, opportunities, moments of truth.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the extract keeps the <code>[SRC: &lt;filename&gt;]</code> citations, so the drafter inherits the audit trail.</div></div>
+      <div class="card opt method" id="input-analyses--journey-mapping">
+        <div class="card-head"><h4>journey-mapping</h4></div>
+        <p class="card-question">What does today's workflow feel like for each type of user?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Where today's workflow hurts each persona: pain points, touchpoints and the low moments along the way.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">One journey card per persona: phases, steps, touchpoints, channels, a sentiment curve, pain points and opportunities.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Gives the draft a backbone for §5 task flows, integrations and §4.2 user stories; pain points help set priorities.</div></div>
+        <div class="card-meta">NN/g + Kalbach current-state journey · <code>JOURNEY-MAPPING/journey-mapping.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>jtbd</h4>
-        <div class="role">Christensen-Moesta + Ulwick</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you want the requirements to anchor on user motivation rather than features — "when X, I want Y, so I can Z" — and you have raw inputs that imply jobs without naming them.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/JTBD/jtbd-job-map.html</code> — canonical statements, four forces (push / pull / anxiety / habit), 5×5 Ulwick opportunity matrix.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the drafter cites jobs as positive scope and forces as design-influence context.</div></div>
+      <div class="card opt method" id="input-analyses--jtbd">
+        <div class="card-head"><h4>jtbd</h4></div>
+        <p class="card-question">Why do users act, and which of their needs are least served?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The motivation the inputs imply but never name: the jobs users need done and what pushes them forward or holds them back.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A job map with outcomes, the push, pull, anxiety and habit forces, and opportunity scores showing which jobs are most underserved.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The draft targets jobs and outcomes rather than features: jobs become in-scope items, forces become design context.</div></div>
+        <div class="card-meta">Christensen-Moesta + Ulwick · <code>JTBD/jtbd-job-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ooux</h4>
-        <div class="role">Sophia Prater ORCA</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>. Synonym merge across sources is the load-bearing Round 2.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs imply a domain object model (entities, relationships, CTAs) and you want it canonicalised — with conflicting names merged and provenance preserved — before the drafter commits to §7 Data.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/OOUX/ooux-object-map.html</code> — Mermaid <code>erDiagram</code>, OOUX sticky-note column-board, relationship matrix, and an embedded JSON object-map body block (load-bearing for drafter re-ingestion).</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the extract carries the full object model, so the drafter consumes it in one shot.</div></div>
+      <div class="card opt method" id="input-analyses--ooux">
+        <div class="card-head"><h4>ooux</h4></div>
+        <p class="card-question">What are the main objects, and which names mean the same one?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Synonyms across sources (Customer, Client, Account holder) that are really one object, plus relationships and actions the inputs only imply.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">One reconciled object model: each object with its attributes, relationships and actions, tagged by source, plus a log of every synonym merge.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body"><code>/requirements</code> takes the whole object model in one pass, so §7 data shapes use one name per object.</div></div>
+        <div class="card-meta">Sophia Prater's ORCA · <code>OOUX/ooux-object-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>swim-lane-process-mapping</h4>
-        <div class="role">Rummler-Brache + Disconnect Analysis</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs describe multi-actor processes with handoffs (the "white space" between functional silos) and you want every lane-to-lane handoff classified — clean or one of four disconnect types.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/SWIM-LANE-PROCESS-MAPPING/swim-lane-process-mapping.html</code> — Mermaid <code>flowchart TD</code> per process with <code>subgraph</code> lanes, Actor inventory, Disconnect Register, embedded YAML model.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; the YAML model becomes a bijection target — processes → §5 task flows, handoffs → §6 integrations, decisions → acceptance-criteria branches, data-stores → §7 entities.</div></div>
+      <div class="card opt method" id="input-analyses--swim-lane-process-mapping">
+        <div class="card-head"><h4>swim-lane-process-mapping</h4></div>
+        <p class="card-question">Where does work get stuck when it passes between people or teams?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Broken handoffs between roles: the gaps between teams where processes most often fail.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A swim-lane flowchart per process, an actor list, and a register classing every handoff as clean or one of four disconnect types.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Processes seed §5 task flows; handoffs seed integration constraints; decisions seed acceptance-criteria branches; data stores seed §7 data shapes.</div></div>
+        <div class="card-meta">Rummler-Brache + disconnect analysis · <code>SWIM-LANE-PROCESS-MAPPING/swim-lane-process-mapping.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>affinity-mapping</h4>
-        <div class="role">Kawakita KJ + Beyer/Holtzblatt</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the inputs are a dense pile of atomic claims (interview snippets, sticky-notes, observations) and you want them clustered bottom-up into 4–8 super-themes without imposing a prior frame.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/AFFINITY-MAPPING/affinity-map.html</code> — Mermaid mindmap, cluster cards with stable/drifted confidence chips (Jaccard between two anti-anchoring passes), orphans table, optional tension flowchart, embedded JSON hierarchy.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Choose <strong>Accept &amp; use</strong> at the end of the run: it writes the re-ingestion extract into <code>documentation/</code>; super-theme insight statements feed §1 vision anchors, clusters seed §5 task-flow groupings and acceptance-criteria threads, orphans feed §10 out-of-scope candidates, tensions feed trade-off-aware criteria.</div></div>
+      <div class="card opt method" id="input-analyses--affinity-mapping">
+        <div class="card-head"><h4>affinity-mapping</h4></div>
+        <p class="card-question">What groups emerge from this pile of notes, without forcing a structure?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Themes hiding in a large, messy pile of notes, plus the notes that fit nowhere and the tensions between clusters.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Notes grouped bottom-up into labelled clusters and 4–8 super-themes, with a confidence mark per cluster and the orphans and tensions listed.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Super-themes anchor the §1 application context, clusters group §5 task flows, orphans become out-of-scope candidates (§1.5), tensions become trade-off-aware criteria.</div></div>
+        <div class="card-meta">Kawakita KJ + Beyer/Holtzblatt · <code>AFFINITY-MAPPING/affinity-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>glossary</h4>
-        <div class="role">Ubiquitous-language vocabulary</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>. (Distinct from the same-named <code>/analyse-requirement</code> method, which reads <code>requirements.md</code>.)</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you want <em>one</em> agreed vocabulary for the system before drafting — significant terms surfaced, classified domain vs application, defined from the inputs, and rated for how settled each shared understanding is.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/GLOSSARY/glossary.html</code> — per-term cards with domain/application + 0–4 maturity badges and cited definitions, plus fenced proposed definitions / canonical resolutions wherever a term is left undefined, weak, synonymous, or conflicting.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Re-drop <strong>into <code>documentation/</code></strong> so <code>/requirements</code> adopts the agreed terms as canonical vocabulary; the blocking proposals reach the resolver as questions you confirm before they anchor requirements.</div></div>
+      <div class="card opt method" id="input-analyses--glossary">
+        <div class="card-head"><h4>glossary</h4></div>
+        <p class="card-question">Do we all mean the same thing by the key terms?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Terms the inputs leave undefined, use weakly, give synonyms for, or define in conflicting ways.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Each significant term, classed domain or application, with its cited definition, how settled it is (0–4), and a proposed definition where the inputs fall short.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body"><code>/requirements</code> adopts the agreed terms as canonical vocabulary, so the spec uses one word per concept.</div></div>
+        <div class="card-meta">Ubiquitous-language vocabulary · reads the inputs, unlike the <code>/analyse-requirement</code> glossary · <code>GLOSSARY/glossary.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>user-goal-analysis</h4>
-        <div class="role">Actor &amp; end-user goals (GORE)</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you want the actor and end-user goals behind the request made explicit — both the goals the inputs state <em>and</em> the ones they imply. The actor-goal complement to <em>business-context-definition</em>.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/USER-GOAL-ANALYSIS/user-goal-analysis.html</code> — a goal register grouped by goal type, an AND/OR refinement tree, an actor map, and a conflicts table; inferred goals flagged for confirmation.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Re-drop <strong>into <code>documentation/</code></strong> so explicit goals seed §4 user stories and inferred goals reach the resolver as questions you confirm before they become requirements.</div></div>
+      <div class="card opt method" id="input-analyses--user-goal-analysis">
+        <div class="card-head"><h4>user-goal-analysis</h4></div>
+        <p class="card-question">What are the users actually trying to achieve, stated or implied?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Goals behind the request that the inputs only imply, and goals of different actors that conflict.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A goal register grouped by goal type, an AND/OR refinement tree, an actor map and a conflicts table; inferred goals are flagged.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Explicit goals seed §4.2 user stories; inferred goals reach the spec only if you confirm them.</div></div>
+        <div class="card-meta">Goal-oriented requirements engineering (GORE) · <code>USER-GOAL-ANALYSIS/user-goal-analysis.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>business-context-definition</h4>
-        <div class="role">Enterprise motivation (BMM + BABOK)</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via <code>source-manifest.json</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you need the <em>enterprise</em> motivation behind the request — the business problems, needs, and goals — rather than the individual actor goals <em>user-goal-analysis</em> covers. Run the two side-by-side for two clean, non-overlapping registers.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-inputs/BUSINESS-CONTEXT-DEFINITION/business-context-definition.html</code> — a report linking business problem → need → goal → problem-statement in one causal chain; inferred items flagged for confirmation.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Re-drop <strong>into <code>documentation/</code></strong> so the causal chain seeds strategic framing and requirement traceability; run <em>user-goal-analysis</em> alongside it for actor-level goals.</div></div>
+      <div class="card opt method" id="input-analyses--business-context-definition">
+        <div class="card-head"><h4>business-context-definition</h4></div>
+        <p class="card-question">What business problem is this solving, and why does it matter?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The enterprise motivation behind the request: the business problems, needs and goals, not individual users' goals.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">One causal chain from business problem to need, goal and problem statement, with inferred items flagged for confirmation.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The chain seeds the strategic framing of the next draft, so requirements trace back to a business problem.</div></div>
+        <div class="card-meta">BMM + BABOK · pairs with user-goal-analysis · <code>BUSINESS-CONTEXT-DEFINITION/business-context-definition.html</code></div>
       </div>
 
     </div>
@@ -822,7 +1028,7 @@
     <div class="card base solo">
       <h4>/generate-prd</h4>
       <div class="role">Strategic PRD for stakeholders</div>
-      <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via the shared <code>source-manifest.json</code>. Independent of <code>requirements.md</code> — never reads or writes it.</div></div>
+      <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code> via the shared <code>source-manifest.json</code>. Independent of <code>requirements-prototype.md</code> — never reads or writes it.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">When you need a stakeholder-facing PRD (strategic framing, success metrics, hypotheses, MVP phasing, risks). Run before <code>/requirements</code> so its strategic framing can be folded back as a drafting input.</div></div>
       <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/prd/prd.md</code> — narrative PRD with <code>PC-NNN</code> / <code>PAI-NNN</code> citation IDs (namespaced to avoid collision with <code>/requirements</code>).</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body"><strong>Copy the relevant parts of <code>generated-docs/prd/prd.md</code> (success metrics, MVP phasing, hypothesis statements) into <code>documentation/</code></strong> before running <code>/requirements</code>. The PRD then becomes another source the drafter cites alongside the original material.</div></div>
@@ -845,7 +1051,7 @@
       <div class="role">Citation-grounded system spec</div>
       <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code>, enumerated via the shared <code>source-manifest.json</code>. Multimodal sources (screenshots, diagrams) read natively.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">First proper pipeline of any engagement, once the input drop is complete (and any pre-requirements lensing — PRD, input reviews, input analyses — has been folded back into <code>documentation/</code>). Re-run after every meaningful change.</div></div>
-      <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> — citation-grounded, deterministic spec. Inline <code>[SRC: C-NNN]</code> traces stripped on merge; <code>[AI-SUGGESTED]</code> / <code>[STANDARD-RULE]</code> / <code>[OUT-OF-SCOPE]</code> markers retained.</div></div>
+      <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/requirements/requirements-prototype.md</code> — citation-grounded, deterministic spec. Inline <code>[SRC: C-NNN]</code> traces stripped on merge; <code>[AI-SUGGESTED]</code> / <code>[STANDARD-RULE]</code> / <code>[OUT-OF-SCOPE]</code> markers retained.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">The downstream contract every other pipeline keys off. Hand to <code>/wireframe</code> as-is. Lens with <code>/analyse-requirement</code> or <code>/review-requirement</code> before sign-off; fold review verdicts back as manual edits.</div></div>
     </div>
   </div>
@@ -866,7 +1072,7 @@
       <div class="role">Brand token set</div>
       <div class="field"><span class="field-label">Inputs</span><div class="field-body">Domain text (e.g. "hospitality booking platform") + optional live URL the styler can scrape. Does not read <code>documentation/</code> or <code>generated-docs/requirements/</code> — runs in parallel to <code>/requirements</code>.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">Whenever you want a tokenised brand basis — colours, type, shadow, motion, contrast pairs — for downstream high-fidelity work. Can run any time; fully stand-alone.</div></div>
-      <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/design-system/design-system-light.html</code> and/or <code>generated-docs/design-system/design-system-dark.html</code> — one self-contained, single-mode HTML file per colour mode, each with an embedded LLM-readable token JSON block plus visual swatches, type specimens, shadow / motion / contrast pairs viewable via <code>file://</code>. The consultant picks light-only / dark-only / both after extraction; the extracted scheme is the hue source (always written, <code>meta.primary: true</code>) and the other mode is derived from the same brand hues.</div></div>
+      <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/design-system/design-system.html</code> — one self-contained HTML file; both modes behind a Light/Dark switch (OS default) when both were chosen, with an embedded LLM-readable token JSON block per mode plus visual swatches, type specimens, shadow / motion / contrast pairs viewable via <code>file://</code>. The consultant picks light-only / dark-only / both after extraction; the extracted scheme is the hue source (always written, <code>meta.primary: true</code>) and the other mode is derived from the same brand hues.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">Reference for any prototype or hi-fi UI work after wireframes settle. <strong>Note:</strong> the low-fi <code>/wireframe</code> output uses its own bundled <code>wireframe-ds.css</code>, not the styler's output — design-system tokens land in the next fidelity step, not in the lo-fi variants.</div></div>
     </div>
   </div>
@@ -883,70 +1089,78 @@
     <a class="back-link" href="#paths">↑ Back to paths</a>
   </summary>
   <div class="acc-body">
-    <p class="panel-lede">Critique the merged <code>generated-docs/requirements/requirements.md</code> — surface defects, gaps, ambiguities, and risks. Output is a punch-list you act on by hand-editing <code>requirements.md</code> (or by re-running <code>/requirements</code> with corrective input).</p>
+    <div class="family-common">
+      <h3>Common to all 7 methods</h3>
+      <p>Critique the merged spec for defects, gaps, ambiguities and risks.</p>
+      <dl>
+        <dt>Reads</dt><dd><code>generated-docs/requirements/requirements-prototype.md</code></dd>
+        <dt>Results</dt><dd>A list of findings in <code>generated-docs/review-requirements/&lt;METHOD&gt;/</code>. Never changes the spec.</dd>
+        <dt>Usual next step</dt><dd>Run <code>/amend-requirements</code> to record the changes, or <code>/resolve-review</code> to turn chosen findings into an approved input document. Or add corrective input to <code>documentation/</code> and re-run <code>/requirements</code>.</dd>
+      </dl>
+    </div>
     <div class="panel-grid">
 
-      <div class="card opt">
-        <h4>adversarial</h4>
-        <div class="role">Eight-dimension critique</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before handing the spec to design or engineering — flush out defects so downstream work starts from a patched doc, not inherited weaknesses.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/ADVERSARIAL/adversarial-review.html</code> — eight-dimension findings (clarity, completeness, consistency, testability, feasibility, risk, scope, traceability).</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Manually edit <code>generated-docs/requirements/requirements.md</code> to address each finding, or feed corrections back as new files in <code>documentation/</code> and re-run <code>/requirements</code>.</div></div>
+      <div class="card opt method" id="req-reviews--adversarial">
+        <div class="card-head"><h4>adversarial</h4></div>
+        <p class="card-question">Where is the spec contradictory, incomplete, or built on risky assumptions?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Contradictions, gaps, ambiguities and risky assumptions the draft inherited, before design builds on them.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Each defect across eight dimensions, rated against the frontend purpose; backend-only concerns are raised but never block.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Design and estimation start from a patched spec rather than inherited weaknesses.</div></div>
+        <div class="card-meta">Eight-dimension adversarial critique · <code>ADVERSARIAL/adversarial-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>first-principles</h4>
-        <div class="role">Rationale stress-test</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the requirement set feels like a list of features without a defensible "why" — test whether each requirement is grounded in business rationale.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/FIRST-PRINCIPLES/first-principles-review.html</code> — per-requirement defensibility verdict with rework / strengthen / cut recommendations.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Manually rework, strengthen, or cut requirements in <code>requirements.md</code> per the verdicts. Use cut decisions to scope out features before they reach wireframing.</div></div>
+      <div class="card opt method" id="req-reviews--first-principles">
+        <div class="card-head"><h4>first-principles</h4></div>
+        <p class="card-question">Does every requirement have a real business reason to exist?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Requirements carried over by habit, with no defensible business rationale behind them.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A verdict per requirement on whether it is defensible, with the weak ones marked to rework, strengthen or cut.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Weak features are cut or strengthened before wireframing, so screens only carry requirements with a reason.</div></div>
+        <div class="card-meta">Rationale stress-test · <code>FIRST-PRINCIPLES/first-principles-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ten-ba-questions</h4>
-        <div class="role">BA elicitation gaps</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before design or estimation — surface the ten most pressing stakeholder questions the doc has left unanswered.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/TEN-BA-QUESTIONS/ten-ba-questions-review.html</code> — ten ranked elicitation questions, each tied to a doc section.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Ask the client; capture answers as a new file in <code>documentation/</code> and re-run <code>/requirements</code> to fold them in.</div></div>
+      <div class="card opt method" id="req-reviews--ten-ba-questions">
+        <div class="card-head"><h4>ten-ba-questions</h4><span class="next-chip">Ask client</span></div>
+        <p class="card-question">Which ten business questions does the spec still leave open?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The most consequential business-analysis gaps left in the spec, named instead of buried in a full critique.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Ten ranked stakeholder questions, each tied to the spec section it affects.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Answers close the gaps before design or estimation, so screens aren't built on open business questions.</div></div>
+        <div class="card-meta">Ranked BA questions · <code>TEN-BA-QUESTIONS/ten-ba-questions-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>ten-ux-questions</h4>
-        <div class="role">UX elicitation gaps</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before designing screens — surface the ten most pressing UX questions the doc has left unanswered, so wireframes don't lock decisions against gaps.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/TEN-UX-QUESTIONS/ten-ux-questions-review.html</code> — ten ranked UX questions tied to user goals and screen-level decisions.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Ask the client (or make defensible defaults), capture as new files in <code>documentation/</code>, re-run <code>/requirements</code> before running <code>/wireframe</code>.</div></div>
+      <div class="card opt method" id="req-reviews--ten-ux-questions">
+        <div class="card-head"><h4>ten-ux-questions</h4><span class="next-chip">Ask client</span></div>
+        <p class="card-question">Which ten UX questions must be answered before designing screens?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The sharpest UX unknowns in the spec, which wireframes would otherwise lock in by accident.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Ten ranked UX questions, tied to user goals and screen-level decisions.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Screens are designed on answers, or on explicit assumptions where none exist, instead of silent guesses.</div></div>
+        <div class="card-meta">Ranked UX questions · <code>TEN-UX-QUESTIONS/ten-ux-questions-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>user-stories</h4>
-        <div class="role">Backlog-readiness check</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> — specifically the §3 user-story rows.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before stories enter the backlog or estimation — find which aren't ready for design or estimation so you can rework them first.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/USER-STORIES/user-stories-review.html</code> — per-story readiness verdict (INVEST-style) with specific defects called out.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Manually rework the flagged stories in <code>generated-docs/requirements/requirements.md</code> — split, sharpen acceptance criteria, add missing personas — before passing to engineering or wireframing.</div></div>
+      <div class="card opt method" id="req-reviews--user-stories">
+        <div class="card-head"><h4>user-stories</h4></div>
+        <p class="card-question">Which user stories aren't ready for design or estimation yet?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Stories that are too big, vague, untestable or missing a persona, before they enter the backlog.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A readiness verdict per story, with the specific defects called out.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Flagged stories get split, sharper acceptance criteria or a missing persona before wireframing or estimation.</div></div>
+        <div class="card-meta">INVEST-style readiness · Reads §4.2 stories · <code>USER-STORIES/user-stories-review.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>requirements-quality</h4>
-        <div class="role">ISO 29148 well-formedness score</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before design or estimation, when you want every requirement scored against the ISO/IEC/IEEE 29148 well-formedness characteristics (singular, unambiguous, verifiable, conforming, complete) rather than a freeform critique.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/REQUIREMENTS-QUALITY/requirements-quality.html</code> — requirement-by-characteristic heatmap with risk tiers, a set-level consistency / redundancy register, and a fix list rewriting ambiguous or compound requirements into EARS form.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Work the Red-tier requirements up to standard before they reach design; the per-characteristic tally shows which weakness dominates the doc.</div></div>
+      <div class="card opt method" id="req-reviews--requirements-quality">
+        <div class="card-head"><h4>requirements-quality</h4></div>
+        <p class="card-question">Is each requirement singular, unambiguous, testable and complete?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Compound, ambiguous or unverifiable requirements, plus contradictions and duplicates across the whole set.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A requirement-by-characteristic heatmap with risk tiers, a consistency register, and rewrites of weak requirements into "When &lt;trigger&gt;, the system shall &lt;response&gt;" form.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Red-tier requirements are worked up to standard before design, leaving fewer compound and untestable requirements in the spec.</div></div>
+        <div class="card-meta">ISO/IEC/IEEE 29148 + EARS · <code>REQUIREMENTS-QUALITY/requirements-quality.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>requirements-traceability</h4>
-        <div class="role">Citation audit</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> (+ its citation sidecar).</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before the requirements feed design or code-gen, when you want to know which facts trace back to a real input source or an accepted AI-suggestion — and which trace to nothing.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/review-requirements/REQUIREMENTS-TRACEABILITY/requirements-traceability.html</code> — leads with the untraceable result (orphans, broken citations, dropped content that leaked through), backed by a deterministic citation check and a requirement-by-trace-target heatmap.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Resolve the flagged orphans and broken citations — supply the missing source, re-confirm the dropped value, or remove the claim — before the document is trusted downstream.</div></div>
+      <div class="card opt method" id="req-reviews--requirements-traceability">
+        <div class="card-head"><h4>requirements-traceability</h4></div>
+        <p class="card-question">Which facts in the spec trace back to nothing?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Claims with no input source or accepted AI suggestion behind them, broken citations, and dropped content that leaked back in.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">The untraceable items first, then a deterministic citation check and a heatmap of each requirement against its sources.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Once orphans are sourced, re-confirmed or removed, every fact in the spec traces to its source.</div></div>
+        <div class="card-meta">Citation audit · Also reads the citation record · <code>REQUIREMENTS-TRACEABILITY/requirements-traceability.html</code></div>
       </div>
 
     </div>
@@ -967,8 +1181,8 @@
       <h4>/resolve-review</h4>
       <div class="role">Review findings → approved input document</div>
       <div class="field"><span class="field-label">Inputs</span><div class="field-body">One existing review artefact, picked from disk — any <code>generated-docs/review-inputs/&lt;METHOD&gt;/</code> or <code>generated-docs/review-requirements/&lt;METHOD&gt;/</code> output. Run a review first.</div></div>
-      <div class="field"><span class="field-label">When to use</span><div class="field-body">After a review, when you want its findings <em>acted on</em> rather than just listed — the assisted alternative to hand-editing <code>documentation/</code> files or <code>requirements.md</code>. You select which findings to address and resolve each one in turn; every AI-inferred resolution is confirmed by an explicit affirmative — per finding, or in one go via an explicit <em>Accept all remaining as drafted</em> choice — before it is recorded.</div></div>
-      <div class="field"><span class="field-label">Delivers</span><div class="field-body">One <strong>new</strong> dated resolutions document under <code>documentation/</code> per run — existing input files are never modified or overwritten. Each resolution is origin-marked (consultant-stated vs AI-inferred-and-confirmed) and carries a Supersedes line so cross-source-conflict detection stays honest. On review-requirements-sourced runs you can additionally opt in to a transient <em>Amendments (pending re-merge)</em> section cached inside <code>requirements.md</code> for immediate downstream use.</div></div>
+      <div class="field"><span class="field-label">When to use</span><div class="field-body">After a review, when you want its findings <em>acted on</em> rather than just listed — the assisted alternative to hand-editing <code>documentation/</code> files or <code>requirements-prototype.md</code>. You select which findings to address and resolve each one in turn; every AI-inferred resolution is confirmed by an explicit affirmative — per finding, or in one go via an explicit <em>Accept all remaining as drafted</em> choice — before it is recorded.</div></div>
+      <div class="field"><span class="field-label">Delivers</span><div class="field-body">One <strong>new</strong> dated resolutions document under <code>documentation/</code> per run — existing input files are never modified or overwritten. Each resolution is origin-marked (consultant-stated vs AI-inferred-and-confirmed) and carries a Supersedes line so cross-source-conflict detection stays honest. On review-requirements-sourced runs you can additionally opt in to a transient <em>Amendments (pending re-merge)</em> section cached inside <code>requirements-prototype.md</code> for immediate downstream use.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">Re-run <code>/requirements</code> — the resolutions document is picked up like any other input file and your decisions are folded into the regenerated spec (which also clears the transient Amendments cache). One run resolves one review; re-invoke for another.</div></div>
     </div>
   </div>
@@ -987,9 +1201,9 @@
     <div class="card opt solo">
       <h4>/amend-requirements</h4>
       <div class="role">Consultant-stated changes → approved amendments</div>
-      <div class="field"><span class="field-label">Inputs</span><div class="field-body">A finished <code>generated-docs/requirements/requirements.md</code> plus the changes you state in your own words — name a section or requirement ID (<code>§6.3</code>, <code>F-07</code>) or just describe what you want different.</div></div>
+      <div class="field"><span class="field-label">Inputs</span><div class="field-body">A finished <code>generated-docs/requirements/requirements-prototype.md</code> plus the changes you state in your own words — name a section or requirement ID (<code>§6.3</code>, <code>F-07</code>) or just describe what you want different.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">The spec is written and you already know what to change — no review involved. Reachable directly, or as the <em>amend</em> option when you re-run <code>/requirements</code> on a finished spec.</div></div>
-      <div class="field"><span class="field-label">Delivers</span><div class="field-body">A new <code>documentation/amendments-&lt;date&gt;.md</code> — the durable record, folded into the spec body with citations by the next <code>/requirements</code> run — and a transient <code>## Amendments (pending re-merge)</code> section inside <code>requirements.md</code>, so <code>/wireframe</code>, <code>/prototype</code>, the analyses and <code>/export-requirements</code> honour the change immediately. Nothing existing in <code>documentation/</code> is overwritten and no other line of the spec is touched.</div></div>
+      <div class="field"><span class="field-label">Delivers</span><div class="field-body">A new <code>documentation/amendments-&lt;date&gt;.md</code> — the durable record, folded into the spec body with citations by the next <code>/requirements</code> run — and a transient <code>## Amendments (pending re-merge)</code> section inside <code>requirements-prototype.md</code>, so <code>/wireframe</code>, <code>/prototype</code>, the analyses and <code>/export-requirements</code> honour the change immediately. Nothing existing in <code>documentation/</code> is overwritten and no other line of the spec is touched.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">A specific change is recorded as you stated it; a change that is only a direction (<em>"tighten up approvals on rate changes"</em>) comes back as two or three concrete alternatives with their consequences, and you pick one. You are also told what the change affects — data properties the wireframes bind to, the scope boundary, and which wireframes or exports were built against the older spec.</div></div>
     </div>
   </div>
@@ -1006,160 +1220,168 @@
     <a class="back-link" href="#paths">↑ Back to paths</a>
   </summary>
   <div class="acc-body">
-    <p class="panel-lede">Transform the merged spec into derived structural models (object maps, journeys, state diagrams, glossaries) that downstream design phases will eventually consume. Today these are reference reading the consultant uses to inform <code>/wireframe</code> scope and dimension choices — mechanical hand-off into <code>/wireframe</code> is on the roadmap.</p>
+    <div class="family-common">
+      <h3>Common to all 17 methods</h3>
+      <p>Transform the merged spec into derived structural models: object maps, journeys, state diagrams, glossaries.</p>
+      <dl>
+        <dt>Reads</dt><dd><code>generated-docs/requirements/requirements-prototype.md</code></dd>
+        <dt>Results</dt><dd>A model of the spec in <code>generated-docs/analyse-requirements/&lt;METHOD&gt;/</code></dd>
+        <dt>Usual next step</dt><dd>Use it to settle scope and design choices. When you run <code>/wireframe</code> (Stage&nbsp;1b) or <code>/prototype</code> (input selection, basis&nbsp;B), you can select completed analyses as supporting inputs, so the screens reflect their models. Cards marked "Not read by <code>/wireframe</code>" are the exception.</dd>
+      </dl>
+    </div>
     <div class="panel-grid">
 
-      <div class="card opt">
-        <h4>ooux</h4>
-        <div class="role">Object-oriented UX</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before wireframing — identify the core objects, attributes, CTAs implied by the spec so screen structure and navigation key off them.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/OOUX/ooux-object-map.html</code> — object map with CTAs, attributes, relationships, CCPs.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: read it and use the object/CTA inventory to inform your <code>/wireframe</code> scope-selection and trade-off-dimension choices.</div></div>
+      <div class="card opt method" id="req-analyses--ooux">
+        <div class="card-head"><h4>ooux</h4></div>
+        <p class="card-question">Which core objects should the screens and navigation be built around?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The core objects the spec implies, their attributes and the actions users take on each, before any layout exists.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">An object map: each object's attributes, relationships and call-to-action verbs.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Drives the information architecture: which objects get their own screen, what nests, and each object's primary actions.</div></div>
+        <div class="card-meta">Object-oriented UX (ORCA) · <code>OOUX/ooux-object-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>data-model</h4>
-        <div class="role">Entity schema</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before designing forms, lists, and detail views — surface entities, attributes, and relationships so the UI keys off an explicit schema, not improvisation.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/DATA-MODEL/data-model.html</code> — entities + attributes + relationships diagram.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: read it and use it as ground-truth when defining wireframe scope and per-screen property sets.</div></div>
+      <div class="card opt method" id="req-analyses--data-model">
+        <div class="card-head"><h4>data-model</h4></div>
+        <p class="card-question">What data does the system hold, and how is it connected?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Entities, attributes and relationships the spec implies but never states as a schema, and entities it leaves undefined.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">An explicit entity model, each entity, attribute and relationship traced back to its source requirement.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Forms, lists and detail views are designed against one schema, so field-level UI matches the data.</div></div>
+        <div class="card-meta">Entity schema · <code>DATA-MODEL/data-model.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>jtbd</h4>
-        <div class="role">Jobs-to-be-done</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you need to anchor wireframing posture on user motivation rather than features — keep the variants honest to the hired jobs.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/JTBD/jtbd-job-map.html</code> — job map with outcomes implied by the spec.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: use the job map to weight which user goals each <code>/wireframe</code> variant should optimise for.</div></div>
+      <div class="card opt method" id="req-analyses--jtbd">
+        <div class="card-head"><h4>jtbd</h4></div>
+        <p class="card-question">Which features serve a real user need, and which don't?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The jobs users hire the product for, behind the feature list the spec already assumes.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A job map: the jobs users need done and the outcomes they expect from each.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Features that serve a real job get priority, and the jobs steer each wireframe variant's design philosophy.</div></div>
+        <div class="card-meta">Jobs-to-be-done · <code>JTBD/jtbd-job-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>use-cases</h4>
-        <div class="role">Actor flow</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before designing screens or APIs — surface actor goals, preconditions, main and extension flows so the design is grounded in explicit usage paths.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/USE-CASES/use-cases-map.html</code> — actor / goal / pre&amp;post-condition / main+extension flow map.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: use the flow inventory to pick wireframe scope and to spot screens whose extension flows the variants must show.</div></div>
+      <div class="card opt method" id="req-analyses--use-cases">
+        <div class="card-head"><h4>use-cases</h4></div>
+        <p class="card-question">How does each actor's goal play out, including when it fails?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Exception and extension branches the spec never handles, next to each actor's main path and preconditions.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A use-case map of each actor's goals, with preconditions, the main flow, and its extensions and exceptions.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Screens follow the main and exception flows, and unhandled exception branches are caught before design.</div></div>
+        <div class="card-meta">Actor flow · <code>USE-CASES/use-cases-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>user-journeys</h4>
-        <div class="role">Experience-phase map</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you want feature prioritisation — and wireframing focus — to target the experience moments that matter most (pain-points, opportunities).</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/USER-JOURNEYS/user-journeys-map.html</code> — phase / pain-point / opportunity map per persona.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: identify the moments of truth to prioritise as wireframe scope; let pain-points drive trade-off-dimension positions.</div></div>
+      <div class="card opt method" id="req-analyses--user-journeys">
+        <div class="card-head"><h4>user-journeys</h4></div>
+        <p class="card-question">Which moments of the user's experience matter most?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The experience phases where friction is sharpest, which a flat feature list hides.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A journey map of the experience phases, with the pain points and opportunities the spec describes.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Features that relieve the sharpest friction get priority; the journey also informs each wireframe variant's design philosophy.</div></div>
+        <div class="card-meta">Experience-phase map · <code>USER-JOURNEYS/user-journeys-map.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>task-flows</h4>
-        <div class="role">Step-by-step paths</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before designing wizards, multi-step forms, or sequence-heavy screens — surface the step-by-step goal decomposition implicit in the spec.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/TASK-FLOWS/task-flows.html</code> — goal-decomposition map with step sequences.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: use the step inventory to decide whether a screen is single-page or wizard, and what the back/cancel semantics are.</div></div>
+      <div class="card opt method" id="req-analyses--task-flows">
+        <div class="card-head"><h4>task-flows</h4></div>
+        <p class="card-question">What steps does a user take to reach each goal?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The ordered steps and decision points behind each goal, which decide where screens split or forms branch.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A task-flow map decomposing each goal into ordered steps and decision points.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Sets screen sequencing, wizard splits and where a single form should branch.</div></div>
+        <div class="card-meta">Step-by-step paths · <code>TASK-FLOWS/task-flows.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>sequence-diagram</h4>
-        <div class="role">Interaction sequence</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before APIs or async flows are specified — clarify how user, system components, and external services interact across a scenario.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/SEQUENCE-DIAGRAM/sequence-diagram.html</code> — actor / lifeline / message sequence per scenario.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Hand to engineering as the basis for API design; use to spot async-handling decisions the spec should make explicit, then re-run <code>/requirements</code> with that clarification in <code>documentation/</code>.</div></div>
+      <div class="card opt method" id="req-analyses--sequence-diagram">
+        <div class="card-head"><h4>sequence-diagram</h4></div>
+        <p class="card-question">Who talks to whom, in what order, during one scenario?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The order of messages between user, system parts and external services, and the points where async calls can fail.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A sequence diagram of one scenario: every message, request and response, ordered over time.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Pins down API calls and the pending and failure states screens must show during async flows.</div></div>
+        <div class="card-meta">Interaction sequence (UML) · <code>SEQUENCE-DIAGRAM/sequence-diagram.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>state-diagram</h4>
-        <div class="role">Entity lifecycle</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before status-driven UI (chips, badges, conditional actions) — surface entity statuses, transitions, and guards implicit in the spec.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/STATE-DIAGRAM/state-diagram.html</code> — state / transition / guard diagram per entity.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: ensure every status pill in your wireframes has a corresponding state and that every CTA respects the guard set.</div></div>
+      <div class="card opt method" id="req-analyses--state-diagram">
+        <div class="card-head"><h4>state-diagram</h4></div>
+        <p class="card-question">Which statuses can each record have, and what moves it between them?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Each entity's full lifecycle in one view: its statuses, the transitions between them and the guard on each.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A state diagram per entity: statuses, transitions and the conditions that allow each transition.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Drives status pills, which actions are enabled or disabled, and the transition rules screens must enforce.</div></div>
+        <div class="card-meta">Entity lifecycle (UML state machine) · <code>STATE-DIAGRAM/state-diagram.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>activity-diagram</h4>
-        <div class="role">Multi-actor process flow</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before designing screens that span actors or parallel paths — clarify branching, joins, and parallel sub-flows.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/ACTIVITY-DIAGRAM/activity-diagram.html</code> — multi-actor activity diagram with branches and parallel paths.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: identify which screens belong to which actor lane; surface synchronisation points the variants must visualise.</div></div>
+      <div class="card opt method" id="req-analyses--activity-diagram">
+        <div class="card-head"><h4>activity-diagram</h4></div>
+        <p class="card-question">How does a multi-actor process branch and run in parallel?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Decision branches and concurrent paths in multi-actor processes, which are easy to miss in prose.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">An activity diagram of the process flow, with every decision branch and concurrent path.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Each step gets its screen, and no branch or parallel path is left without UI.</div></div>
+        <div class="card-meta">Multi-actor process flow (UML activity) · <code>ACTIVITY-DIAGRAM/activity-diagram.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>opportunity-solution-trees</h4>
-        <div class="role">Reverse discovery audit</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">To audit whether the spec's features actually ladder up to its stated outcomes — surface unaddressed opportunities or missing assumption tests.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/OPPORTUNITY-SOLUTION-TREES/opportunity-solution-tree.html</code> — reverse-discovery tree from features back to outcomes.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use orphan features (no outcome path) as candidates to cut; use orphan opportunities (no solution path) as the next batch of requirements to draft.</div></div>
+      <div class="card opt method" id="req-analyses--opportunity-solution-trees">
+        <div class="card-head"><h4>opportunity-solution-trees</h4></div>
+        <p class="card-question">Does every feature serve a stated outcome?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Features that serve no outcome, outcomes with no solution, and opportunities the spec missed.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A tree linking the desired outcome to opportunities, proposed solutions and their assumption tests.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Features serving no outcome get cut, outcomes without a solution get flagged, and the tree informs which features wireframe variants include.</div></div>
+        <div class="card-meta">Teresa Torres, run in reverse as an audit · <code>OPPORTUNITY-SOLUTION-TREES/opportunity-solution-tree.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>five-whys</h4>
-        <div class="role">Rationale chain</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When you suspect rationale is thin — drill each requirement down to a user goal, business driver, or external mandate.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/FIVE-WHYS/five-whys.html</code> — per-requirement why-chain, flagging thin or speculative justifications for consultant follow-up.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use flagged thin-rationale rows as interview prompts with the client; capture answers in <code>documentation/</code> and re-run <code>/requirements</code>.</div></div>
+      <div class="card opt method" id="req-analyses--five-whys">
+        <div class="card-head"><h4>five-whys</h4><span class="next-chip">Ask client</span></div>
+        <p class="card-question">Why is each requirement there, and is the reason strong enough?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Requirements resting on thin justification, with no user goal, business driver or external mandate clearly behind them.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A why-chain per requirement, drilled down to the user goal, business driver or mandate behind it, with thin chains flagged.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Thin chains become your interview list: confirm the rationale with the client before those features are built.</div></div>
+        <div class="card-meta">Rationale chain · Not read by <code>/wireframe</code> · <code>FIVE-WHYS/five-whys.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>glossary</h4>
-        <div class="role">Vocabulary inventory</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before copy, labels, status pills, or role surfaces are designed — produce an alphabetical citation-bound vocabulary.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/GLOSSARY/glossary.html</code> — alphabetical glossary with definitions and source citations.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Adopt as canonical terminology for wireframe copy, design-system tokens (status pill names), and stakeholder communication. Surface synonym collisions back into <code>requirements.md</code> for resolution.</div></div>
+      <div class="card opt method" id="req-analyses--glossary">
+        <div class="card-head"><h4>glossary</h4></div>
+        <p class="card-question">Does the spec use each term with one meaning?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Terms used inconsistently across the spec, before they become mismatched labels, status pills and role names.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">An alphabetical glossary of every domain term the spec uses, each cited to its source.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The single source for UI wording: labels, help text and error messages use the agreed terms.</div></div>
+        <div class="card-meta">Vocabulary inventory · reads the spec, unlike the <code>/analyse-inputs</code> glossary · <code>GLOSSARY/glossary.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>trade-off-dimension-analysis</h4>
-        <div class="role">Per-goal posture map</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">Before <code>/wireframe</code> — score each user goal against the canonical UX trade-off dimensions (Speed vs Accuracy, Simplicity vs Power, Automation vs Control, …) so variant configurations key off explicit per-goal posture, not architect intuition.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/TRADE-OFF-DIMENSIONS/trade-off-matrix.html</code> — goal × dimension matrix with posture scores.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Today: feed the matrix into the <code>/wireframe</code> architect as an applicability input — it's already wired as an <em>optional</em> architect input via the wireframe orchestrator. Use it to override domain defaults when the spec's goals diverge from data-management productivity assumptions.</div></div>
+      <div class="card opt method" id="req-analyses--trade-off-dimension-analysis">
+        <div class="card-head"><h4>trade-off-dimension-analysis</h4></div>
+        <p class="card-question">For each user goal, what should the screens favour?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Trade-offs the spec leaves implicit: whether each goal needs fast or accurate, simple or powerful, automated or controlled.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A matrix scoring each user goal against a curated set of UX trade-off dimensions.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Sets each goal's positions on the trade-off dimensions, which brief divergent wireframe variants.</div></div>
+        <div class="card-meta">Per-goal position map · <code>TRADE-OFF-DIMENSIONS/trade-off-matrix.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>mvp-slicing</h4>
-        <div class="role">Release-slice story map</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> — its §5 task flows, §4.2 stories, and §6.1 / §6.4 priorities.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the requirements carry priorities but no one has drawn the line between what ships first and what waits — you want a defensible MVP cut before wireframing.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/MVP-SLICING/mvp-slicing.html</code> — a user-story map (a §5 task-flow backbone with F-NN, UI-NN, and §4.2 story cards under each activity and a release-slice line proposed from the <code>GR-24</code> Must set) paired with a MoSCoW board of the §6 / §4.2 priorities.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Confirm the proposed slice as the MVP scope before invoking <code>/wireframe</code> or <code>/prototype</code>; use the MoSCoW board to see at a glance what each priority bucket holds.</div></div>
+      <div class="card opt method" id="req-analyses--mvp-slicing">
+        <div class="card-head"><h4>mvp-slicing</h4><span class="next-chip">Confirm scope</span></div>
+        <p class="card-question">What ships first, and what can wait?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Where the MVP line falls: the spec carries priorities, but nobody has drawn the cut between first release and later.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A story map with a proposed release-slice line marking the MVP cut, plus a must/should/could/won't board of the priorities.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Once you confirm the slice, the MVP scope is agreed before wireframing begins.</div></div>
+        <div class="card-meta">Story map + MoSCoW · Reads §5, §4.2, §6.1/§6.4 · Not read by <code>/wireframe</code> · <code>MVP-SLICING/mvp-slicing.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>crud-coverage</h4>
-        <div class="role">Entity × CRUD matrix</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> — its §7 entities, §6 functions, and §6.5 rights grants.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the domain is entity-and-operation heavy and you want a mechanical check that every entity has create / read / update / delete paths before wireframing.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/CRUD-COVERAGE/crud-matrix.html</code> — a matrix crossing each entity against the four lifecycle operations (delivered / granted-not-delivered / forgotten / intentional), a lifecycle-hole register, and an optional role view with Segregation-of-Duties flags.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use the filled cells as a screen-and-action checklist against the blueprint; chase the flagged holes — especially §6.5 rights that no function delivers — before building.</div></div>
+      <div class="card opt method" id="req-analyses--crud-coverage">
+        <div class="card-head"><h4>crud-coverage</h4></div>
+        <p class="card-question">Can every record be created, viewed, changed and deleted where needed?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Lifecycle holes: entities missing a create, read, update or delete path, and rights the spec grants that no function delivers.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A matrix of entities against the four operations, each cell delivered, granted-not-delivered, forgotten or intentional, plus an optional role view with segregation-of-duties flags.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">The filled cells become a screen-and-action checklist for the blueprint, and holes are chased before building.</div></div>
+        <div class="card-meta">Entity × CRUD matrix · Reads §7, §6.1, §6.5; seeds from data-model or ooux when present · <code>CRUD-COVERAGE/crud-matrix.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>decision-tables</h4>
-        <div class="role">DMN rule tables</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>. Optionally seeds from an on-disk <em>state-diagram</em> analysis (runs cold without it).</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the requirements are dense with conditional logic — validation, conditional fields, eligibility, status-and-role-driven enable/disable — and you want it pulled into structured rule tables and checked for gaps before building.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/DECISION-TABLES/decision-tables.html</code> — DMN decision tables (condition columns to a conclusion, hit policy per table), a completeness check flagging unhandled condition combinations, and a consistency check flagging conflicting rules, with the rule model embedded for re-ingestion.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use the tables as the form-validation, conditional-visibility, and action-enablement spec your screens enforce; chase the flagged gaps and conflicts before wireframing, and re-drop the HTML into <code>documentation/</code> so <code>/requirements</code> turns each blocking gap into a question.</div></div>
+      <div class="card opt method" id="req-analyses--decision-tables">
+        <div class="card-head"><h4>decision-tables</h4></div>
+        <p class="card-question">Is every combination of conditions handled, without conflicting rules?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">Condition combinations no rule handles, and rules that conflict, hidden in validation, eligibility and enable/disable logic.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">Structured rule tables mapping conditions to a conclusion, plus a completeness check for gaps and a consistency check for conflicts.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">Gaps and conflicts in the spec's conditional rules become a list to chase before wireframing.</div></div>
+        <div class="card-meta">DMN rule tables · Optionally seeds from state-diagram · Not read by <code>/wireframe</code> · <code>DECISION-TABLES/decision-tables.html</code></div>
       </div>
 
-      <div class="card opt">
-        <h4>faceted-classification</h4>
-        <div class="role">Filter / sort / search facet map</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code>. Optionally seeds its controlled vocabulary from an on-disk <em>glossary</em> analysis (runs cold without it).</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">When the app is list-heavy and you need to specify how users filter, sort, and search records before wireframing those list surfaces.</div></div>
-        <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/analyse-requirements/FACETED-CLASSIFICATION/facet-map.html</code> — a facet map of the orthogonal dimensions records can be sliced along (status, type, owner, date-range), each with its value set and the data property it filters on, plus an orthogonality check, per-surface filter/sort scaffolding notes, and a facet-value-scoped controlled vocabulary.</div></div>
-        <div class="field"><span class="field-label">How to use</span><div class="field-body">Use the facets as the filter-chip, facet-rail, and sort-axis specification your list surfaces are designed against; re-drop into <code>documentation/</code> so <code>/requirements</code> hardens the filter/sort UI requirements.</div></div>
+      <div class="card opt method" id="req-analyses--faceted-classification">
+        <div class="card-head"><h4>faceted-classification</h4></div>
+        <p class="card-question">How should users filter, sort and search long lists?</p>
+        <div class="field"><span class="field-label">Reveals</span><div class="field-body">The independent dimensions records can be sliced along, such as status, type, owner and date range.</div></div>
+        <div class="field"><span class="field-label">You learn</span><div class="field-body">A facet map: each facet's values and the data property it filters on, a check that facets don't overlap, and a controlled vocabulary.</div></div>
+        <div class="field"><span class="field-label">Improves</span><div class="field-body">A concrete filter, sort and search specification for the spec's list requirements, ready to confirm before wireframing.</div></div>
+        <div class="card-meta">Facet map · Optionally seeds from the glossary analysis · Not read by <code>/wireframe</code> · <code>FACETED-CLASSIFICATION/facet-map.html</code></div>
       </div>
 
     </div>
@@ -1179,8 +1401,8 @@
     <div class="card base solo">
       <h4>/wireframe</h4>
       <div class="role">Parallel low-fi HTML variants</div>
-      <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> (full, scoped via the scope-selector at Stage 1). Reads <code>framework/assets/pattern-catalogue/**</code> for pattern bindings. Optionally reads the trade-off-dimension analysis as an architect applicability input.</div></div>
-      <div class="field"><span class="field-label">When to use</span><div class="field-body">After <code>requirements.md</code> is accepted (and ideally after any requirement reviews/analyses you wanted to run), to explore divergent UX positions on a scoped slice. Two variants default; up to three for richer comparisons.</div></div>
+      <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements-prototype.md</code> (full, scoped via the scope-selector at Stage 1). Reads <code>framework/assets/pattern-catalogue/**</code> for pattern bindings. Optionally reads the trade-off-dimension analysis as an architect applicability input.</div></div>
+      <div class="field"><span class="field-label">When to use</span><div class="field-body">After <code>requirements-prototype.md</code> is accepted (and ideally after any requirement reviews/analyses you wanted to run), to explore divergent UX positions on a scoped slice. Two variants default; up to three for richer comparisons.</div></div>
       <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>wireframes/&lt;scope&gt;/index.html</code> (metadata landing — scope, side-by-side variant columns of new-tab screen links, prose cards, trade-off matrix). Per-variant screen HTMLs with <code>data-src</code> requirement-ID traceability and <code>data-prop</code> property traceability.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">Open two variants' screens side-by-side via browser tab-drag (the index links every screen as <code>target="_blank"</code>). Use the trade-off matrix and prose cards to drive variant selection with the client; then hand the chosen variant to <code>/prototype</code> as its wireframe basis (basis&nbsp;D), or feed selected directions back as constraints for the next requirements pass.</div></div>
     </div>
@@ -1197,14 +1419,14 @@
     <a class="back-link" href="#paths">↑ Back to paths</a>
   </summary>
   <div class="acc-body">
-    <p class="panel-lede">The final, highest-fidelity step. Each run produces <strong>one</strong> clickable, client-side-only React/Next.js prototype of a scope of <code>requirements.md</code>, accumulating in <strong>one shared app</strong> under <code>prototypes/</code> (scaffolded once from <code>template/</code>) reachable from a single landing page. Look &amp; feel is <strong>brand-locked and identical across every prototype</strong> — divergence is <em>pure UX</em>: a named <strong>UX posture</strong> + trade-off positions (D1–D5) reshape layout and workflows. Shares the <code>scope-selector</code> skill and <code>blueprint-architect</code> agent with <code>/wireframe</code>.</p>
+    <p class="panel-lede">The final, highest-fidelity step. Each run produces <strong>one</strong> clickable, client-side-only React/Next.js prototype of a scope of <code>requirements-prototype.md</code>, accumulating in <strong>one shared app</strong> under <code>prototypes/</code> (scaffolded once from <code>template/</code>) reachable from a single landing page. Look &amp; feel is <strong>brand-locked and identical across every prototype</strong> — divergence is <em>pure UX</em>: a named <strong>UX posture</strong> + trade-off positions (D1–D5) reshape layout and workflows. Shares the <code>scope-selector</code> skill and <code>blueprint-architect</code> agent with <code>/wireframe</code>.</p>
     <div class="panel-grid">
 
       <div class="card base solo">
         <h4>/prototype</h4>
         <div class="role">Hi-fi clickable prototype (one shared app)</div>
-        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> (scoped via the shared <code>scope-selector</code>) + your <strong>A–E</strong> supporting-input selection — <strong>A</strong> requirement, <strong>B</strong> <code>generated-docs/analyse-requirements/*</code>, <strong>C</strong> <code>generated-docs/analyse-inputs/*</code>, <strong>D</strong> <code>wireframes/&lt;scope&gt;/*</code>, <strong>E</strong> <code>documentation/*</code> — plus <code>generated-docs/design-system/design-system-light.html</code> or <code>-dark.html</code> for brand (if present; else reference-URL / paste-tokens / template defaults) and <code>template/</code> as the one-time scaffold source.</div></div>
-        <div class="field"><span class="field-label">When to use</span><div class="field-body">After <code>requirements.md</code> is accepted and wireframes have settled a direction, when you want a <em>clickable</em> artefact to demo with the client. Run it again — different posture or positions, same brand — to add a divergent prototype for side-by-side comparison.</div></div>
+        <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements-prototype.md</code> (scoped via the shared <code>scope-selector</code>) + your <strong>A–E</strong> supporting-input selection — <strong>A</strong> requirement, <strong>B</strong> <code>generated-docs/analyse-requirements/*</code>, <strong>C</strong> <code>generated-docs/analyse-inputs/*</code>, <strong>D</strong> <code>wireframes/&lt;scope&gt;/*</code>, <strong>E</strong> <code>documentation/*</code> — plus <code>generated-docs/design-system/design-system.html</code> (or the previous per-mode files) for brand (if present; else reference-URL / paste-tokens / template defaults) and <code>template/</code> as the one-time scaffold source.</div></div>
+        <div class="field"><span class="field-label">When to use</span><div class="field-body">After <code>requirements-prototype.md</code> is accepted and wireframes have settled a direction, when you want a <em>clickable</em> artefact to demo with the client. Run it again — different posture or positions, same brand — to add a divergent prototype for side-by-side comparison.</div></div>
         <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>prototypes/</code> — one shared Next.js app: a landing page listing every prototype grouped by scope, a per-run prototype under <code>src/app/&lt;name-slug&gt;/</code>, shared components / fixtures / one <code>theme.css</code>, and a <code>PrototypeChrome</code> with a role switcher (PI-05) + data reset. Every data-bound element is traceable to a blueprint Property closed set (anti-fabrication); the build is verified (lint + typecheck + build + Playwright smoke) and honours invariants <code>PI-01</code>..<code>PI-08</code>.</div></div>
         <div class="field"><span class="field-label">How to use</span><div class="field-body">Pipeline per run: scope + name → A–E inputs → blueprint (reused if present) → purpose + posture + positions → design-spec <em>draft → resolve → merge</em> → scaffold-if-needed → parallel per-surface generation → verify → landing update. Open the landing page, click into the prototype, and walk the client through the workflow. Designating a <code>/wireframe</code> variant as the basis pre-fills the posture and D1–D5 positions from that variant.</div></div>
       </div>
@@ -1226,7 +1448,7 @@
     <div class="card base solo">
       <h4>/export-requirements</h4>
       <div class="role">Application-audience re-projection of the spec</div>
-      <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements.md</code> — sole content input, exported <em>as it exists at that moment</em>, amendments included. Pending amendments are first folded into the export's copy of the body, with every edit listed in <code>fold-report.md</code> for you to check at the gate. Apart from that fold, nothing is invented at export time — the only export-supplied wording is a small fixed set of replacements. <code>requirements.md</code> is never changed.</div></div>
+      <div class="field"><span class="field-label">Inputs</span><div class="field-body"><code>generated-docs/requirements/requirements-prototype.md</code> — sole content input, exported <em>as it exists at that moment</em>, amendments included. Pending amendments are first folded into the export's copy of the body, with every edit listed in <code>fold-report.md</code> for you to check at the gate. Apart from that fold, nothing is invented at export time — the only export-supplied wording is a small fixed set of replacements. <code>requirements-prototype.md</code> is never changed.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">Once the requirements have settled — after the analyses, reviews, wireframes, and manual refinements have shaped the spec into what you actually want built — and a dev team outside this workspace needs the build-ready version.</div></div>
       <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/export-requirements/requirements-application.md</code> (plus <code>fold-report.md</code> when amendments were folded; an amendment whose anchor can't be found stops the run before any write) — amendments folded into the body, prototype-only scaffolding stripped (the prototype-invariants appendix and the framework-internal target-mode table), fixture references rebased to backend-contract pointers, the prototype-scoping preamble dropped from the guidance sections, and a provenance block stamped in with a sha256 fingerprint of the exact source version, so a re-run can tell you whether the export is stale. Anything that can't be cleanly re-projected — a prototype-flavoured phrase inside a cited requirement, say — is left exactly as written and flagged in the provenance block and under the affected section, rather than quietly reworded. Self-describing for external readers via a citation legend.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">Hand it over together with <code>generated-docs/requirements/draft-claims.ndjson</code> (the verbatim source quotes behind the citation tags). Re-running after the spec changes offers a one-click regenerate; the prior export is checkpointed to git first.</div></div>
@@ -1250,11 +1472,11 @@
       if (!el) return;
       // Clear previous hash-active highlight
       document.querySelectorAll('.hash-active').forEach(function (n) { n.classList.remove('hash-active'); });
-      // If the target is a details element, expand it
+      // If the target is a details element, expand it; highlight the target whatever its tag
       if (el.tagName && el.tagName.toLowerCase() === 'details') {
         el.open = true;
-        el.classList.add('hash-active');
       }
+      el.classList.add('hash-active');
       // Also expand any parent details (in case of nested structure)
       var parent = el.parentElement;
       while (parent) {
