@@ -603,7 +603,7 @@
       <dt>Output shape</dt>
       <dd>A punch-list of findings — never an auto-patch. The artefact is something the consultant <em>reads and acts on</em>, not a positive contract for downstream tools.</dd>
       <dt>Consultant action</dt>
-      <dd>Manual edits to <code>documentation/</code> files (for <code>/review-inputs</code>) or to <code>requirements-prototype.md</code> (for <code>/review-requirement</code>). Some findings also generate follow-up elicitation questions for the client.</dd>
+      <dd>For <code>/review-inputs</code>: edit the <code>documentation/</code> files. For <code>/review-requirement</code>: record the changes with <code>/amend-requirements</code> instead of editing <code>requirements-prototype.md</code> directly, so they survive the next <code>/requirements</code> run. Either way, <code>/resolve-review</code> can turn chosen findings into an approved input document. Some findings also generate follow-up elicitation questions for the client.</dd>
       <dt>Pick when</dt>
       <dd>You suspect the source is incomplete, ambiguous, or weak, and you want a structured list of <em>specifically what to fix</em> before drafting or designing further.</dd>
       <dt>Examples</dt>
@@ -726,11 +726,11 @@
     </tr>
     <tr>
       <td><code>/review-requirement</code> · any methodology</td>
-      <td>Read the punch-list and <strong>manually edit <code>generated-docs/requirements/requirements-prototype.md</code></strong> to address defects — or re-run <code>/requirements</code> with corrective input. The review never auto-patches the spec.</td>
+      <td>Read the punch-list, then record the fixes with <strong><code>/amend-requirements</code></strong>. It writes a dated amendments document into <code>documentation/</code>, so the change survives the next <code>/requirements</code> run, and adds it to the spec straight away as a pending <em>Amendments</em> section. Alternatively use <code>/resolve-review</code> (below), or add corrective input to <code>documentation/</code> and re-run <code>/requirements</code>. The review never auto-patches the spec.</td>
     </tr>
     <tr>
       <td><code>/resolve-review</code></td>
-      <td>The assisted alternative to hand-editing after a review: pick an existing review artefact (<code>generated-docs/review-inputs/</code> or <code>generated-docs/review-requirements/</code>), select the findings to act on, and resolve each one interactively — every AI-inferred resolution is confirmed by an explicit affirmative, either per finding or in one go via an explicit <em>Accept all remaining as drafted</em> choice (nothing is silently assumed). The approved resolutions are written as a <strong>new dated document into <code>documentation/</code></strong> (never overwriting an existing file), ready for the next <code>/requirements</code> run. Review-requirements-sourced runs can additionally (opt-in) cache the same resolutions as a transient <em>Amendments</em> section in <code>requirements-prototype.md</code> until the next re-merge folds them in.</td>
+      <td>The assisted way to act on a review's findings: pick an existing review artefact (<code>generated-docs/review-inputs/</code> or <code>generated-docs/review-requirements/</code>), select the findings to act on, and resolve each one interactively — every AI-inferred resolution is confirmed by an explicit affirmative, either per finding or in one go via an explicit <em>Accept all remaining as drafted</em> choice (nothing is silently assumed). The approved resolutions are written as a <strong>new dated document into <code>documentation/</code></strong> (never overwriting an existing file), ready for the next <code>/requirements</code> run. Review-requirements-sourced runs can additionally (opt-in) cache the same resolutions as a transient <em>Amendments</em> section in <code>requirements-prototype.md</code> until the next re-merge folds them in.</td>
     </tr>
     <tr>
       <td colspan="2">Select relevant analyses (OOUX object map, user-journeys, task-flows, trade-off-dimension matrix) as supporting inputs when you run <code>/wireframe</code> (Stage&nbsp;1b — completed analyses are read sidecar-first) or <code>/prototype</code> (basis&nbsp;B of its A–E input selection), so the produced screens and prototype reflect the lensed structure. They also remain reference reading you use to set scope and trade-off-dimension positions.</td>
@@ -1052,7 +1052,7 @@
       <div class="field"><span class="field-label">Inputs</span><div class="field-body">Every file in <code>documentation/</code>, enumerated via the shared <code>source-manifest.json</code>. Multimodal sources (screenshots, diagrams) read natively.</div></div>
       <div class="field"><span class="field-label">When to use</span><div class="field-body">First proper pipeline of any engagement, once the input drop is complete (and any pre-requirements lensing — PRD, input reviews, input analyses — has been folded back into <code>documentation/</code>). Re-run after every meaningful change.</div></div>
       <div class="field"><span class="field-label">Delivers</span><div class="field-body"><code>generated-docs/requirements/requirements-prototype.md</code> — citation-grounded, deterministic spec. Inline <code>[SRC: C-NNN]</code> traces stripped on merge; <code>[AI-SUGGESTED]</code> / <code>[STANDARD-RULE]</code> / <code>[OUT-OF-SCOPE]</code> markers retained.</div></div>
-      <div class="field"><span class="field-label">How to use</span><div class="field-body">The downstream contract every other pipeline keys off. Hand to <code>/wireframe</code> as-is. Lens with <code>/analyse-requirement</code> or <code>/review-requirement</code> before sign-off; fold review verdicts back as manual edits.</div></div>
+      <div class="field"><span class="field-label">How to use</span><div class="field-body">The downstream contract every other pipeline keys off. Hand to <code>/wireframe</code> as-is. Lens with <code>/analyse-requirement</code> or <code>/review-requirement</code> before sign-off; act on review findings with <code>/amend-requirements</code> or <code>/resolve-review</code>.</div></div>
     </div>
   </div>
 </details>
@@ -1181,7 +1181,7 @@
       <h4>/resolve-review</h4>
       <div class="role">Review findings → approved input document</div>
       <div class="field"><span class="field-label">Inputs</span><div class="field-body">One existing review artefact, picked from disk — any <code>generated-docs/review-inputs/&lt;METHOD&gt;/</code> or <code>generated-docs/review-requirements/&lt;METHOD&gt;/</code> output. Run a review first.</div></div>
-      <div class="field"><span class="field-label">When to use</span><div class="field-body">After a review, when you want its findings <em>acted on</em> rather than just listed — the assisted alternative to hand-editing <code>documentation/</code> files or <code>requirements-prototype.md</code>. You select which findings to address and resolve each one in turn; every AI-inferred resolution is confirmed by an explicit affirmative — per finding, or in one go via an explicit <em>Accept all remaining as drafted</em> choice — before it is recorded.</div></div>
+      <div class="field"><span class="field-label">When to use</span><div class="field-body">After a review, when you want its findings <em>acted on</em> rather than just listed — the assisted alternative to editing <code>documentation/</code> files yourself or describing each change to <code>/amend-requirements</code>. You select which findings to address and resolve each one in turn; every AI-inferred resolution is confirmed by an explicit affirmative — per finding, or in one go via an explicit <em>Accept all remaining as drafted</em> choice — before it is recorded.</div></div>
       <div class="field"><span class="field-label">Delivers</span><div class="field-body">One <strong>new</strong> dated resolutions document under <code>documentation/</code> per run — existing input files are never modified or overwritten. Each resolution is origin-marked (consultant-stated vs AI-inferred-and-confirmed) and carries a Supersedes line so cross-source-conflict detection stays honest. On review-requirements-sourced runs you can additionally opt in to a transient <em>Amendments (pending re-merge)</em> section cached inside <code>requirements-prototype.md</code> for immediate downstream use.</div></div>
       <div class="field"><span class="field-label">How to use</span><div class="field-body">Re-run <code>/requirements</code> — the resolutions document is picked up like any other input file and your decisions are folded into the regenerated spec (which also clears the transient Amendments cache). One run resolves one review; re-invoke for another.</div></div>
     </div>
@@ -1226,7 +1226,7 @@
       <dl>
         <dt>Reads</dt><dd><code>generated-docs/requirements/requirements-prototype.md</code></dd>
         <dt>Results</dt><dd>A model of the spec in <code>generated-docs/analyse-requirements/&lt;METHOD&gt;/</code></dd>
-        <dt>Usual next step</dt><dd>Use it to settle scope and design choices. When you run <code>/wireframe</code> (Stage&nbsp;1b) or <code>/prototype</code> (input selection, basis&nbsp;B), you can select completed analyses as supporting inputs, so the screens reflect their models. Cards marked "Not read by <code>/wireframe</code>" are the exception.</dd>
+        <dt>Usual next step</dt><dd>Use it to settle scope and design choices, and record what you settle with <code>/amend-requirements</code>. When you run <code>/wireframe</code> (Stage&nbsp;1b) or <code>/prototype</code> (input selection, basis&nbsp;B), you can select completed analyses as supporting inputs, so the screens reflect their models. Cards marked "Not read by <code>/wireframe</code>" are the exception.</dd>
       </dl>
     </div>
     <div class="panel-grid">
